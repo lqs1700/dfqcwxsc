@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by 七月.
- * User: 七月
- * Date: 2017/2/16
- * Time: 1:59
- */
 
 namespace app\api\model;
-
 
 use app\lib\exception\ProductException;
 use app\lib\exception\ThemeException;
@@ -16,7 +9,6 @@ use think\Model;
 class Theme extends BaseModel
 {
     protected $hidden = ['delete_time', 'topic_img_id', 'head_img_id'];
-
     /**
      * 关联Image
      * 要注意belongsTo和hasOne的区别
@@ -24,12 +16,12 @@ class Theme extends BaseModel
      */
     public function topicImg()
     {
-        return $this->belongsTo('Image', 'topic_img_id', 'id');
+        return $this->belongsTo('Image', 'topic_image_id', 'id');
     }
 
     public function headImg()
     {
-        return $this->belongsTo('Image', 'head_img_id', 'id');
+        return $this->belongsTo('Image', 'head_image_id', 'id');
     }
 
     /**
@@ -64,22 +56,9 @@ class Theme extends BaseModel
         {
             return [];
         }
-        // 讲解with的用法和如何预加载关联属性的关联属性
-        // 不要在这里就toArray或者toJSON
         $themes = self::with('products,img')
-//            ->with('products.imgs')
             ->select($ids);
         return $themes;
-        //        foreach ($themes as $theme) {
-        //            foreach($theme->products as $product){
-        //                $url = $product->img;
-        //            }
-        //        }
-        // 讲解collection的用法，可以在Model中配置默认返回数据集，而非数组
-        //        $themes = User::with(['orders'=>function($query){
-        //            $query->where('order_no', '=', 7);
-        //        }])->select();
-        //        return collection($themes)->toArray();
     }
 
     public static function addThemeProduct($themeID, $productID)

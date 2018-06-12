@@ -10,13 +10,6 @@ use app\lib\exception\ThemeException;
 use think\Controller;
 use think\Exception;
 
-/**
- * 主题推荐,主题指首页里多个聚合在一起的商品
- * 注意同专题区分
- * 常规的REST服务在创建成功后，需要在Response的
- * header里附加成功创建资源的URL，但这通常在内部开发中
- * 并不常用，所以本项目不采用这种方式
- */
 class Theme extends Controller
 {
     /**
@@ -34,16 +27,9 @@ class Theme extends Controller
         $validate->goCheck();
         $ids = explode(',', $ids);
         $result = ThemeModel::with('topicImg,headImg')->select($ids);
-//        $result = ThemeModel::getThemeList($ids);
         if ($result->isEmpty()) {
             throw new ThemeException();
         }
-
-        // 框架会自动序列化数据为JSON，所以这里不要toJSON！
-//        $result = $result->hidden(['products.imgs'])
-//            ->toArray();
-//        $result = $result->hidden([
-//            'products.category_id','products.stock','products.summary']);
         return $result;
     }
 
@@ -56,8 +42,6 @@ class Theme extends Controller
         }
         return $theme->hidden(['products.summary'])->toArray();
     }
-
-//    public function getThemeSummary()
 
     /**
      * @url /theme/:t_id/product/:p_id
@@ -88,16 +72,4 @@ class Theme extends Controller
             'code' => 204
         ]);
     }
-
-    // 去除部分属性，尽量对客户端保持精简
-//    private function cutThemes($themes)
-//    {
-//        foreach ($themes as &$theme) {
-//            foreach ($theme['products'] as &$product) {
-//                unset($product['stock']);
-//                unset($product['summary']);
-//            }
-//        }
-//        return $themes;
-//    }
 }

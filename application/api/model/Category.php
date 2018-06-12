@@ -13,21 +13,13 @@ class Category extends BaseModel
 
     public function img()
     {
-        return $this->belongsTo('Image', 'topic_img_id', 'id');
+        return $this->belongsTo('Image', 'top_image_id', 'id');
     }
 
-    public static function getCategories($ids)
-    {
-        $categories = self::with('products')
-            ->with('products.img')
-            ->select($ids);
-        return $categories;
-    }
-    
     public static function getCategory($id)
     {
         $category = self::with('products')
-            ->with('products.img')
+            ->with('products.imgs')
             ->find($id);
         return $category;
     }

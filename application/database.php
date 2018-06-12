@@ -13,15 +13,14 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    //'hostname'        => 'localhost',
-    'hostname'        => 'rm-bp1c2r958c56jx495fo.mysql.rds.aliyuncs.com',
+    'hostname'        => 'localhost',
+    //'hostname'        => 'rm-bp1c2r958c56jx495fo.mysql.rds.aliyuncs.com',
     // 数据库名
-    'database'        => 'terran',
+    'database'        => 'qcsc',
     // 用户名
     'username'        => 'root',
     // 密码
-   // 'password'        => 'root',
-    'password'        => 'lqs5073638LIU',
+    'password'        => 'root',
     // 端口
     'hostport'        => '3306',
     // 连接dsn
