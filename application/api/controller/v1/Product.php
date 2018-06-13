@@ -31,33 +31,12 @@ class Product extends Controller
     {
         (new IDMustBePositiveInt())->goCheck();
         (new PagingParameter())->goCheck();
-        $pagingProducts = ProductModel::getProductsByCategoryID(
-            $id, true, $page, $size);
+        $pagingProducts = ProductModel::getProductsByCategoryID($id, true, $page, $size);
         if ($pagingProducts->isEmpty())
         {
-            // 对于分页最好不要抛出MissException，客户端并不好处理
-            return [
-                'current_page' => $pagingProducts->currentPage(),
-                'data' => []
-            ];
+            return ['current_page' => $pagingProducts->currentPage(),'data' => []];
         }
-        //数据集对象和普通的二维数组在使用上的一个最大的区别就是数据是否为空的判断，
-        //二维数组的数据集判断数据为空直接使用empty
-        //collection的判空使用 $collection->isEmpty()
-
-        // 控制器很重的一个作用是修剪返回到客户端的结果
-
-        //        $t = collection($products);
-        //        $cutProducts = collection($products)
-        //            ->visible(['id', 'name', 'img'])
-        //            ->toArray();
-
-//        $collection = collection($pagingProducts->items());
-        $data = $pagingProducts
-            ->hidden(['summary'])
-            ->toArray();
-        // 如果是简洁分页模式，直接序列化$pagingProducts这个Paginator对象会报错
-        //        $pagingProducts->data = $data;
+        $data = $pagingProducts->hidden(['detail_image'])->toArray();
         return [
             'current_page' => $pagingProducts->currentPage(),
             'data' => $data
@@ -74,15 +53,11 @@ class Product extends Controller
     public function getAllInCategory($id = -1)
     {
         (new IDMustBePositiveInt())->goCheck();
-        $products = ProductModel::getProductsByCategoryID(
-            $id, false);
-        if ($products->isEmpty())
-        {
+        $products = ProductModel::getProductsByCategoryID($id, false);
+        if ($products->isEmpty()){
             throw new ThemeException();
         }
-        $data = $products
-            ->hidden(['summary'])
-            ->toArray();
+        $data = $products->hidden(['detail_image'])->toArray();
         return $data;
     }
 
@@ -101,11 +76,7 @@ class Product extends Controller
         {
 
         }
-        $products = $products->hidden(
-            [
-                'summary'
-            ])
-            ->toArray();
+        $products = $products->hidden(['detail_image'])->toArray();
         return $products;
     }
 
@@ -121,26 +92,9 @@ class Product extends Controller
     {
         (new IDMustBePositiveInt())->goCheck();
         $product = ProductModel::getProductDetail($id);
-        if (!$product)
-        {
+        if (!$product){
             throw new ProductException();
         }
         return $product;
     }
-
-    public function createOne()
-    {
-        $product = new ProductModel();
-        $product->save(
-            [
-                'id' => 1
-            ]);
-    }
-
-    public function deleteOne($id)
-    {
-        ProductModel::destroy($id);
-        //        ProductModel::destroy(1,true);
-    }
-
 }

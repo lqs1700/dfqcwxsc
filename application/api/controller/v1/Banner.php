@@ -2,15 +2,11 @@
 
 namespace app\api\controller\v1;
 
-
 use app\api\controller\BaseController;
 use app\api\validate\IDMustBePositiveInt;
 use app\api\model\Banner as BannerModel;
 use app\lib\exception\MissException;
 
-/**
- * Banner资源
- */ 
 class Banner extends BaseController
 {
 //    protected $beforeActionList = [

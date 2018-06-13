@@ -19,7 +19,6 @@ class Category extends BaseModel
     public static function getCategory($id)
     {
         $category = self::with('products')
-            ->with('products.imgs')
             ->find($id);
         return $category;
     }

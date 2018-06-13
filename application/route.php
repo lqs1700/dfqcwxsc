@@ -16,18 +16,20 @@ Route::group('api/:version/theme',function(){
 });
 
 //Product
-Route::post('api/:version/product', 'api/:version.Product/createOne');
-Route::delete('api/:version/product/:id', 'api/:version.Product/deleteOne');
-Route::get('api/:version/product/by_category/paginate', 'api/:version.Product/getByCategory');
-Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory');
-Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);
-Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');
+Route::group('api/:version/product',function(){
+    Route::get('/by_category/paginate','api/:version.Product/getByCategory');
+    Route::get('/by_category','api/:version.Product/getAllInCategory');
+    Route::get('/recent','api/:version.Product/getRecent');
+    Route::get('/:id','api/:version.Product/getOne');
+});
 
-
+//Route::get('api/:version/product/by_category/paginate', 'api/:version.Product/getByCategory');  // 己完成 d.cn/api/v1/product/by_category/paginate?id=23
+//Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory');        // 己完成 d.cn/api/v1/product/by_category?id=23
+//Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);         // 己完成 d.cn/api/v1/product/15
+//Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');                    // 己完成 d.cn/api/v1/product/recent
 
 //Token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
-
 Route::post('api/:version/token/app', 'api/:version.Token/getAppToken');
 Route::post('api/:version/token/verify', 'api/:version.Token/verifyToken');
 
@@ -52,19 +54,3 @@ Route::post('api/:version/pay/concurrency', 'api/:version.Pay/notifyConcurrency'
 
 //Message
 Route::post('api/:version/message/delivery', 'api/:version.Message/sendDeliveryMsg');
-
-
-
-//return [
-//        ':version/banner/[:location]' => 'api/:version.Banner/getBanner'
-//];
-
-//Route::miss(function () {
-//    return [
-//        'msg' => 'your required resource are not found',
-//        'error_code' => 10001
-//    ];
-//});
-
-
-

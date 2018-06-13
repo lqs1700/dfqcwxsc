@@ -8,7 +8,7 @@ use think\Model;
 
 class Theme extends BaseModel
 {
-    protected $hidden = ['delete_time', 'topic_img_id', 'head_img_id'];
+    protected $hidden = ['delete_time', 'topic_img_id'];
     /**
      * 关联Image
      * 要注意belongsTo和hasOne的区别
@@ -17,11 +17,6 @@ class Theme extends BaseModel
     public function topicImg()
     {
         return $this->belongsTo('Image', 'topic_image_id', 'id');
-    }
-
-    public function headImg()
-    {
-        return $this->belongsTo('Image', 'head_image_id', 'id');
     }
 
     /**
@@ -40,7 +35,7 @@ class Theme extends BaseModel
     
     public static function getThemeWithProducts($id)
     {
-        $themes = self::with('products,topicImg,headImg')
+        $themes = self::with('products,topicImg')
             ->find($id);
         return $themes;
     }

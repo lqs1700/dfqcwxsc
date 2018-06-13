@@ -8,22 +8,24 @@ class Product extends BaseModel
 {
     protected $autoWriteTimestamp = 'datetime';
     protected $hidden = [
-        'delete_time', 'main_img_id', 'pivot', 'from', 'category_id',
+        'delete_time', 'main_img_id','version_id','serious_id','category_id',
         'create_time', 'update_time'];
 
     /**
      * 图片属性
      */
-    public function imgs()
-    {
-        return $this->hasMany('ProductImage', 'product_id', 'id');
-    }
 
-    public function getMainImgUrlAttr($value, $data)
+    public function getMainImageUrlAttr($value, $data)
     {
         return $this->prefixImgUrl($value, $data);
     }
 
+    public function getDetailImageAttr($value, $data)
+    {
+        $status = [1=>'index@category4.png',2=>'index@category5.png'];
+        $value =$status[$value];
+        return $this->prefixImgUrl($value, $data);
+    }
 
     public function properties()
     {
@@ -38,22 +40,14 @@ class Product extends BaseModel
      * @param bool $paginate
      * @return \think\Paginator
      */
-    public static function getProductsByCategoryID(
-        $categoryID, $paginate = true, $page = 1, $size = 30)
+    public static function getProductsByCategoryID($categoryID, $paginate = true, $page = 1, $size = 30)
     {
-        $query = self::
-        where('category_id', '=', $categoryID);
-        if (!$paginate)
-        {
+        $query = self::where('category_id', '=', $categoryID);
+        if (!$paginate){
             return $query->select();
-        }
-        else
-        {
+        }else{
             // paginate 第二参数true表示采用简洁模式，简洁模式不需要查询记录总数
-            return $query->paginate(
-                $size, true, [
-                'page' => $page
-            ]);
+            return $query->paginate($size, true, ['page' => $page]);
         }
     }
 
@@ -64,23 +58,7 @@ class Product extends BaseModel
      */
     public static function getProductDetail($id)
     {
-        //千万不能在with中加空格,否则你会崩溃的
-        //        $product = self::with(['imgs' => function($query){
-        //               $query->order('index','asc');
-        //            }])
-        //            ->with('properties,imgs.imgUrl')
-        //            ->find($id);
-        //        return $product;
-
-        $product = self::with(
-            [
-                'imgs' => function ($query)
-                {
-                    $query->with(['imgUrl'])
-                        ->order('order', 'asc');
-                }])
-            ->with('properties')
-            ->find($id);
+        $product = self::with('properties')->find($id);
         return $product;
     }
 

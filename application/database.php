@@ -14,7 +14,6 @@ return [
     'type'            => 'mysql',
     // 服务器地址
     'hostname'        => 'localhost',
-    //'hostname'        => 'rm-bp1c2r958c56jx495fo.mysql.rds.aliyuncs.com',
     // 数据库名
     'database'        => 'qcsc',
     // 用户名

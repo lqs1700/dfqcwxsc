@@ -26,7 +26,7 @@ class Theme extends Controller
         $validate = new IDCollection();
         $validate->goCheck();
         $ids = explode(',', $ids);
-        $result = ThemeModel::with('topicImg,headImg')->select($ids);
+        $result = ThemeModel::with('topicImg')->select($ids);
         if ($result->isEmpty()) {
             throw new ThemeException();
         }
