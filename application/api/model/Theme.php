@@ -47,23 +47,16 @@ class Theme extends BaseModel
      */
     public static function getThemeList($ids)
     {
-        if (empty($ids))
-        {
+        if (empty($ids)){
             return [];
         }
-        $themes = self::with('products,img')
-            ->select($ids);
+        $themes = self::with('products,img')->select($ids);
         return $themes;
     }
 
     public static function addThemeProduct($themeID, $productID)
     {
         $models = self::checkRelationExist($themeID, $productID);
-
-        // 写入中间表，这里要注意，即使中间表已存在相同themeID和itemID的
-        // 数据，写入不成功，但TP并不会报错
-        // 最好是在插入前先做一边查询检查
-
         $models['theme']->products()
             ->attach($productID);
         return true;
