@@ -8,7 +8,7 @@ class Product extends BaseModel
 {
     protected $autoWriteTimestamp = 'datetime';
     protected $hidden = [
-        'delete_time', 'main_img_id','version_id','serious_id','category_id',
+        'delete_time', 'main_img_id','category_id',
         'create_time', 'update_time'];
 
     /**
@@ -30,6 +30,14 @@ class Product extends BaseModel
     public function properties()
     {
         return $this->hasMany('ProductProperty', 'product_id', 'id');
+    }
+
+    public function serious(){
+        return $this->belongsTo('Serious','serious_id','id');
+    }
+
+    public function version(){
+        return $this->belongsTo('version','version_id','id');
     }
 
     /**
@@ -69,5 +77,12 @@ class Product extends BaseModel
             ->select();
         return $products;
     }
-
+    public static function getProductBySerious($id,$version_id){
+        $seriousProduct = self::with(['serious'])
+            ->with(['version'])
+            ->where('serious_id',$id)
+            ->where('version_id',$version_id)
+            ->select();
+        return $seriousProduct;
+    }
 }

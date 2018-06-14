@@ -43,6 +43,12 @@ class Product extends Controller
         ];
     }
 
+    public function getBySerious($id,$version_id=1){
+        (new IDMustBePositiveInt())->goCheck();
+        $serProduct= ProductModel::getProductBySerious($id,$version_id);
+        return $serProduct;
+    }
+
     /**
      * 获取某分类下全部商品(不分页）
      * @url /product/all?id=:category_id

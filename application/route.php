@@ -18,15 +18,32 @@ Route::group('api/:version/theme',function(){
 //Product
 Route::group('api/:version/product',function(){
     Route::get('/by_category/paginate','api/:version.Product/getByCategory');
+    Route::get('/by_serious','api/:version.Product/getBySerious');                          //己完成   d.cn/api/v1/product/by_serious?id=2&&version_id=1
     Route::get('/by_category','api/:version.Product/getAllInCategory');
     Route::get('/recent','api/:version.Product/getRecent');
     Route::get('/:id','api/:version.Product/getOne');
 });
 
-//Route::get('api/:version/product/by_category/paginate', 'api/:version.Product/getByCategory');  // 己完成 d.cn/api/v1/product/by_category/paginate?id=23
-//Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory');        // 己完成 d.cn/api/v1/product/by_category?id=23
-//Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);         // 己完成 d.cn/api/v1/product/15
-//Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');                    // 己完成 d.cn/api/v1/product/recent
+//Route::get('api/:version/product/by_category/paginate', 'api/:version.Product/getByCategory');    // 己完成 d.cn/api/v1/product/by_category/paginate?id=23
+//Route::get('api/:version/product/by_category', 'api/:version.Product/getAllInCategory');          // 己完成 d.cn/api/v1/product/by_category?id=23
+//Route::get('api/:version/product/:id', 'api/:version.Product/getOne',[],['id'=>'\d+']);           // 己完成 d.cn/api/v1/product/15
+//Route::get('api/:version/product/recent', 'api/:version.Product/getRecent');                      // 己完成 d.cn/api/v1/product/recent
+
+//version
+Route::get('api/:version/version','api/:version.Version/getAllVersion');                            //己完成 d.cn/api/v1/version
+//serious
+Route::get('api/:version/serious','api/:version.Serious/getAllSerious');                            //己完成 d.cn/api/v1/serious
+
+
+
+
+
+
+
+
+
+
+
 
 //Token
 Route::post('api/:version/token/user', 'api/:version.Token/getToken');
